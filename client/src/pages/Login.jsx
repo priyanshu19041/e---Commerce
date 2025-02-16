@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
+import { Link, useNavigate } from "react-router-dom"; 
 import { Footer, Navbar } from "../components";
 
 const Login = () => {
@@ -8,7 +8,7 @@ const Login = () => {
     password: "",
   });
 
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ 
@@ -19,9 +19,22 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Login Credentials:", formData);
-    alert("Login successful!");
-    navigate("/"); // Redirect to Home Page
+
+    // Retrieve stored user data from localStorage
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+
+    if (!storedUser) {
+      alert("No registered user found. Please register first.");
+      return;
+    }
+
+    // Check if email and password match
+    if (formData.email === storedUser.email && formData.password === storedUser.password) {
+      alert("Login successful!");
+      navigate("/"); // Redirect to Home Page
+    } else {
+      alert("Invalid credentials. Please try again.");
+    }
   };
 
   return (

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Footer, Navbar } from "../components";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -8,6 +8,8 @@ const Register = () => {
         email: "",
         password: ""
     });
+
+    const navigate = useNavigate(); // Initialize useNavigate
 
     const handleChange = (e) => {
         setFormData({
@@ -18,8 +20,15 @@ const Register = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        // Save user credentials to localStorage
+        localStorage.setItem("user", JSON.stringify(formData));
+
         console.log("User Registered:", formData);
         alert("Registration successful!");
+
+        // Redirect to login page
+        navigate("/login");
     };
 
     return (
